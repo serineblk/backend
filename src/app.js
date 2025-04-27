@@ -12,7 +12,9 @@ import housekeepingTaskRoutes from './routes/housekeepingTaskRoutes.js';
 import inventoryOrderRoutes from './routes/inventoryOrderRoutes.js';
 import specialRequestRoutes from './routes/specialRequestRoutes.js';
 import staffRoutes from './routes/staffRoutes.js';
-
+import paymentRoutes from './routes/paymentRoutes.js';
+import invoice from'./routes/invoiceRoutes.js';
+import taxpayment from'./routes/taxPaymentRoutes.js';
 const app = express();
 
 // Middleware
@@ -40,6 +42,10 @@ app.use('/api/special-requests', specialRequestRoutes);
 
 // Routes du personnel
 app.use('/api/staff', staffRoutes);
+
+app.use('/api/payments', paymentRoutes);
+app.use('/api/invoices', invoice );
+app.use('/api/tax_payments', taxpayment)
 
 // Route de test
 app.get('/api/health', (req, res) => {

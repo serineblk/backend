@@ -105,7 +105,42 @@ const tableDefinitions = {
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
-  `
+  `,
+  payments: `
+    CREATE TABLE IF NOT EXISTS payments (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      client VARCHAR(100) NOT NULL,
+      amount DECIMAL(10, 2) NOT NULL,
+      date DATE NOT NULL,
+      payment_method VARCHAR(50) NOT NULL,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+  `,
+
+  invoices: `
+    CREATE TABLE IF NOT EXISTS invoices (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      client VARCHAR(100) NOT NULL,
+      amount DECIMAL(10, 2) NOT NULL,
+      date DATE NOT NULL,
+      status ENUM('payé', 'en attente') NOT NULL DEFAULT 'en attente',
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+  `,
+
+  tax_payments: `
+    CREATE TABLE IF NOT EXISTS tax_payments (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      type VARCHAR(100) NOT NULL,
+      amount DECIMAL(10, 2) NOT NULL,
+      date DATE NOT NULL,
+      status ENUM('payé', 'en attente') NOT NULL DEFAULT 'en attente',
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+  `,
 };
 
 /**
@@ -178,7 +213,10 @@ const createAllTables = async () => {
     await createTable('special_requests', tableDefinitions.special_requests);
     await createTable('inventory_orders', tableDefinitions.inventory_orders);
     await createTable('staff', tableDefinitions.staff);
-    
+    await createTable('payments', tableDefinitions.payments);
+    await createTable('invoices', tableDefinitions.invoices);
+    await createTable('tax_payments', tableDefinitions.tax_payments);
+
     // Initialisation des données
     await seedInitialData();
     
